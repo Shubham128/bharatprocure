@@ -1125,9 +1125,8 @@
   const name  = document.getElementById('f-name').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
 
-  // Validation
   if (!name || !phone) {
-    btn.textContent   = '⚠️ Name aur Phone zaroori hai';
+    btn.textContent      = '⚠️ Name aur Phone zaroori hai';
     btn.style.background = '#e53e3e';
     setTimeout(() => {
       btn.textContent      = 'SEND MESSAGE ➔';
@@ -1136,48 +1135,42 @@
     return;
   }
 
-  // ⬇️ APNA NAYA APPS SCRIPT URL YAHAN DAALO
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw41oDtknlTpznvJNt1vKPPhuLq-V_FNF_CEqktn6fk1HElSz3VhKn441uXlNIXb5VEzw/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySP5KeB3UJMqTGufcqCyNAoFA4XHOcyy3VvAdwZQNlThTV_K7FsNDbob13kyw6qri1iw/exec';
 
-  // Loading state
   btn.textContent      = '⏳ Sending...';
-  btn.style.background = '#555';
+  btn.style.background = '#888';
   btn.disabled         = true;
+
+  const formData = new FormData();
+  formData.append('name',         name);
+  formData.append('phone',        phone);
+  formData.append('email',        document.getElementById('f-email').value.trim());
+  formData.append('businessType', document.getElementById('f-btype').value);
+  formData.append('service',      document.getElementById('f-service').value);
+  formData.append('message',      document.getElementById('f-msg').value.trim());
 
   try {
     await fetch(SCRIPT_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name:         name,
-        phone:        phone,
-        email:        document.getElementById('f-email').value.trim(),
-        businessType: document.getElementById('f-btype').value,
-        service:      document.getElementById('f-service').value,
-        message:      document.getElementById('f-msg').value.trim()
-      })
+      method: 'POST',
+      mode:   'no-cors',
+      body:   formData       // ← FormData use kar rahe hain, JSON nahi
     });
 
-    // Success
     btn.textContent      = '✅ Sent! We will contact you soon.';
     btn.style.background = '#217a3c';
 
-    // Form reset
-    document.getElementById('f-name').value    = '';
-    document.getElementById('f-phone').value   = '';
-    document.getElementById('f-email').value   = '';
-    document.getElementById('f-msg').value     = '';
+    document.getElementById('f-name').value            = '';
+    document.getElementById('f-phone').value           = '';
+    document.getElementById('f-email').value           = '';
+    document.getElementById('f-msg').value             = '';
     document.getElementById('f-btype').selectedIndex   = 0;
     document.getElementById('f-service').selectedIndex = 0;
 
   } catch(err) {
-    // Error
     btn.textContent      = '❌ Error! WhatsApp karo: 70800 84446';
     btn.style.background = '#e53e3e';
   }
 
-  // Reset button after 4 sec
   setTimeout(() => {
     btn.textContent      = 'SEND MESSAGE ➔';
     btn.style.background = 'var(--orange)';
