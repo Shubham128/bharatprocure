@@ -1120,19 +1120,7 @@
     document.getElementById('navLinks').classList.toggle('open');
   }
 
-  function handleSubmit(btn) {
-    const name = document.getElementById('f-name').value.trim();
-    const phone = document.getElementById('f-phone').value.trim();
-    if (!name || !phone) {
-      btn.textContent = '⚠️ Please fill Name & Phone';
-      btn.style.background = '#e53e3e';
-      setTimeout(() => { btn.textContent = 'SEND MESSAGE ➔'; btn.style.background = 'var(--orange)'; }, 2500);
-      return;
-    }
-    btn.textContent = '✅ Message Sent! We\'ll contact you soon.';
-    btn.style.background = 'var(--green)';
-    setTimeout(() => { btn.textContent = 'SEND MESSAGE ➔'; btn.style.background = 'var(--orange)'; }, 4000);
-  }
+ 
   async function handleSubmit(btn) {
   const name = document.getElementById('f-name').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
