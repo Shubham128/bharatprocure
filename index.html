@@ -1121,58 +1121,67 @@
   }
 
  
-  async function handleSubmit(btn) {
-  const name = document.getElementById('f-name').value.trim();
+ async function handleSubmit(btn) {
+  const name  = document.getElementById('f-name').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
 
+  // Validation
   if (!name || !phone) {
-    btn.textContent = '⚠️ Please fill Name & Phone';
+    btn.textContent   = '⚠️ Name aur Phone zaroori hai';
     btn.style.background = '#e53e3e';
     setTimeout(() => {
-      btn.textContent = 'SEND MESSAGE ➔';
+      btn.textContent      = 'SEND MESSAGE ➔';
       btn.style.background = 'var(--orange)';
     }, 2500);
     return;
   }
 
-  // ⬇️ APNA APPS SCRIPT URL YAHAN PASTE KARO
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnMOU5kfzRX6I2JNbTXY37KRqUJaXk2f2P5vfoF9NBPLxlbajozYNkAs3TlW2_0gXbkA/exec';
+  // ⬇️ APNA NAYA APPS SCRIPT URL YAHAN DAALO
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw41oDtknlTpznvJNt1vKPPhuLq-V_FNF_CEqktn6fk1HElSz3VhKn441uXlNIXb5VEzw/exec';
 
-  btn.textContent = '⏳ Sending...';
-  btn.disabled = true;
+  // Loading state
+  btn.textContent      = '⏳ Sending...';
+  btn.style.background = '#555';
+  btn.disabled         = true;
 
   try {
     await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method:  'POST',
+      mode:    'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: name,
-        phone: phone,
-        email: document.getElementById('f-email').value.trim(),
+        name:         name,
+        phone:        phone,
+        email:        document.getElementById('f-email').value.trim(),
         businessType: document.getElementById('f-btype').value,
-        service: document.getElementById('f-service').value,
-        message: document.getElementById('f-msg').value.trim()
+        service:      document.getElementById('f-service').value,
+        message:      document.getElementById('f-msg').value.trim()
       })
     });
 
-    btn.textContent = '✅ Message Sent Successfully!';
+    // Success
+    btn.textContent      = '✅ Sent! We will contact you soon.';
     btn.style.background = '#217a3c';
 
-    // Form clear karo
-    ['f-name','f-phone','f-email','f-msg'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('f-btype').selectedIndex = 0;
+    // Form reset
+    document.getElementById('f-name').value    = '';
+    document.getElementById('f-phone').value   = '';
+    document.getElementById('f-email').value   = '';
+    document.getElementById('f-msg').value     = '';
+    document.getElementById('f-btype').selectedIndex   = 0;
     document.getElementById('f-service').selectedIndex = 0;
 
-  } catch (err) {
-    btn.textContent = '❌ Error. Try WhatsApp instead.';
+  } catch(err) {
+    // Error
+    btn.textContent      = '❌ Error! WhatsApp karo: 70800 84446';
     btn.style.background = '#e53e3e';
   }
 
+  // Reset button after 4 sec
   setTimeout(() => {
-    btn.textContent = 'SEND MESSAGE ➔';
+    btn.textContent      = 'SEND MESSAGE ➔';
     btn.style.background = 'var(--orange)';
-    btn.disabled = false;
+    btn.disabled         = false;
   }, 4000);
 }
 </script>
